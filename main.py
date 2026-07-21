@@ -7,6 +7,11 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 # ================= НАСТРОЙКИ =================
 TOKEN = "vk1.a.ZzY53BkvruJV0-JKYQEqNkKFUDxO8p8XeG5UgW3Vvr4wtncFyvbGsAgOvWwrDgpbVu42SZ6h3cr0HZnLSHl5PC7ysJABPmbVPKkLSgMvywONpilSc0h4k0Qf9xKZLKQbF5wcgpAD8cLHEMOMh1VTNdpPcOu6QO5rT6rYPLBkqNfBZqBwAoHJQrd6FXi2XDxQl_RwX8xZH4p2RuIdIpaUYQ"  # Токен сообщества
 GROUP_ID = 240398315          # ID группы VK (число)
+
+vk_session = VkApi (token=TOKEN)
+vk = vk_session.get_api()
+
+longpoll = VkBotLongPoll(vk_session, int(GROUP_ID))
 ADMIN_VK_IDS = [1109060680]        # VK ID главных администраторов/руководства
 
 # ================= БАЗА ДАННЫХ =================
