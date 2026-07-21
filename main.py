@@ -287,29 +287,34 @@ for event in longpoll.listen():
 
         # 👑 АДМИН-КОМАНДЫ МОДИФИКАЦИИ
 
-        # Поставить на должность
+      # Поставить на должность (через разделитель |)
         elif cmd.startswith("/addap"):
             if not is_admin: continue
             try:
-                _, target_id, nick, pos, appoint = text.split(maxsplit=4)
+                # Очищаем команду от префикса "/addap "
+                raw_args = text[7:].strip()
+                # Разделяем по знаку "|"
+                target_id, nick, pos, appoint = [item.strip() for item in raw_args.split('|')]
+                
                 target_id = int(target_id)
                 add_helper(target_id, nick, pos, appoint)
 
-                send_msg(peer_id, f"✅ Игрок {nick} успешно назначен на должность *{pos}!")
+                send_msg(peer_id, f"✅ Игрок **{nick}** успешно назначен на должность **{pos}**!")
 
                 # Уведомление хелперу
                 try:
                     send_msg(
                         target_id,
-                        f"🎉 Поздравляем! Вам выдан доступ к боту Агентов Поддержки.\n\n"
-                        f"👤 Nick_Name: {nick}\n"
-                        f"💼 Должность: {pos}\n"
-                        f"📅 Дата постановления: {appoint}"
+                        f"🎉 **Поздравляем!** Вам выдан доступ к боту Агентов Поддержки.\n\n"
+                        f"👤 **Nick_Name:** {nick}\n"
+                        f"💼 **Должность:** {pos}\n"
+                        f"📅 **Дата постановления:** {appoint}"
                     )
                 except Exception:
                     send_msg(peer_id, "⚠️ Не удалось отправить личное сообщение пользователю (закрыт ЛС).")
             except Exception:
-                send_msg(peer_id, "💡 Формат: /addap [VK_ID] [Nick_Name] [Должность] [Дата]")
+                send_msg(peer_id, "💡 **Формат:** `/addap VK_ID | Nick_Name | Должность | Дата`\n"
+                                  "📌 **Пример:** `/addap 1234567 | Ivan_Ivanov | Агент Поддержки | 20.07.2026`")
 
         # Снять с поста
         elif cmd.startswith("/removeap"):
