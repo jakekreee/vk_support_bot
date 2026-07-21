@@ -148,21 +148,21 @@ for event in longpoll.listen():
                 pass
 
             stats_msg = (
-                f"📊 **Статистика Агента Поддержки**\n\n"
-                f"👤 **Nick_Name:** {nick}\n"
-                f"📅 **Дата постановления:** {appoint}\n"
-                f"⏳ **Дни:** {days}\n"
-                f"✅ **Дни с нормой:** {norm_days}\n"
-                f"💬 **Количество ответов:** {answers}\n"
-                f"⭐ **Количество баллов:** {points}\n"
-                f"⚠️ **Предупреждения:** {warns}/2\n"
-                f"❌ **Выговоры:** {reprimands}/3\n"
-                f"🎂 **До дня рождения:** {days_to_bday}"
+                f"📊 Статистика Агента Поддержки\n\n"
+                f"👤 Nick_Name: {nick}\n"
+                f"📅 Дата постановления: {appoint}\n"
+                f"⏳ Дни: {days}\n"
+                f"✅ Дни с нормой: {norm_days}\n"
+                f"💬 Количество ответов: {answers}\n"
+                f"⭐ Количество баллов: {points}\n"
+                f"⚠️ Предупреждения: {warns}/2\n"
+                f"❌ Выговоры: {reprimands}/3\n"
+                f"🎂 До дня рождения: {days_to_bday}"
             )
             send_msg(peer_id, stats_msg, keyboard=get_main_keyboard())
 
         # 🛣 ROAD (Путь к админке)
-        elif cmd == "road":
+        elif cmd == "Путь до админа":
             if not helper:
                 continue
 
@@ -184,18 +184,18 @@ for event in longpoll.listen():
                 grade = "🟩 Готов к переводу на пост Администратора!"
 
             road_msg = (
-                f"🛣 **Ваш путь к посту Администратора:**\n\n"
-                f"📊 **Ответы:** {answers}/350\n"
+                f"🛣 Ваш путь к посту Администратора:\n\n"
+                f"📊 Ответы: {answers}/350\n"
                 f"[{ans_bar}] {ans_pct}%\n\n"
-                f"📅 **Дни с нормой:** {norm_days}/10\n"
+                f"📅 Дни с нормой: {norm_days}/10\n"
                 f"[{norm_bar}] {norm_pct}%\n\n"
-                f"⭐ **Общий прогресс:** {total_pct}%\n"
-                f"💡 **Оценка:** {grade}"
+                f"⭐ Общий прогресс: {total_pct}%\n"
+                f"💡 Оценка: {grade}"
             )
             send_msg(peer_id, road_msg)
 
         # 📝 NEAK (Информация о неактиве)
-        elif cmd.startswith("neak"):
+        elif cmd.startswith("Неактив"):
             conn = sqlite3.connect("black_russia_bot.db")
             c = conn.cursor()
             c.execute("SELECT start_date, end_date, status FROM inactives WHERE vk_id = ?", (user_id,))
@@ -205,27 +205,27 @@ for event in longpoll.listen():
             if inac:
                 s_date, e_date, status = inac
                 msg_text = (
-                    f"📝 **Информация о неактиве:**\n\n"
-                    f"📅 **С какого числа:** {s_date}\n"
-                    f"📅 **До какого числа:** {e_date}\n"
-                    f"📌 **Статус неактива:** {status}"
+                    f"📝 Информация о неактиве:\n\n"
+                    f"📅 С какого числа: {s_date}\n"
+                    f"📅 До какого числа: {e_date}\n"
+                    f"📌 Статус неактива: {status}"
                 )
             else:
                 msg_text = "ℹ️ У вас нет зарегистрированного неактива."
             send_msg(peer_id, msg_text)
 
         # 💌 THANK (Анонимные пожелания)
-        elif cmd.startswith("thank"):
+        elif cmd.startswith("Пожелание"):
             parts = text.split(maxsplit=2)
             if len(parts) >= 3:
                 target_nick = parts[1]
                 wish = parts[2]
-                send_msg(peer_id, f"💌 **Анонимное пожелание для {target_nick} успешно отправлено!**\n«{wish}»")
+                send_msg(peer_id, f"💌 Анонимное пожелание для {target_nick} успешно отправлено!\n«{wish}»")
             else:
-                send_msg(peer_id, "💡 **Формат использования:**\n`thank [Nick_Name] [Текст пожелания]`")
+                send_msg(peer_id, "💡 Формат использования:\n`thank [Nick_Name] [Текст пожелания]`")
 
         # 🟢 ОНЛАЙН
-        elif cmd == "онлайн":
+        elif cmd == "Онлайн":
             conn = sqlite3.connect("black_russia_bot.db")
             c = conn.cursor()
             c.execute("SELECT nick_name, position FROM helpers")
@@ -236,7 +236,7 @@ for event in longpoll.listen():
                 send_msg(peer_id, "📋 Список Агентов Поддержки пуст.")
                 continue
 
-            res_text = "🟢 **Список Агентов Поддержки в сети:**\n\n"
+            res_text = "🟢 Список Агентов Поддержки в сети:\n\n"
             for idx, h in enumerate(all_helpers, 1):
                 res_text += f"{idx}. {h[0]} [{h[1]}]\n"
             send_msg(peer_id, res_text)
@@ -247,15 +247,15 @@ for event in longpoll.listen():
                 continue
 
             adm_text = (
-                "⚙️ **Панель Управления Администрации:**\n\n"
-                "🔹 `/chstats` — Список и управление Агентами Поддержки.\n"
-                "🔹 `/addap [VK_ID] [Nick_Name] [Должность] [Дата]` — Поставить АП.\n"
-                "🔹 `/removeap [VK_ID] [Причина]` — Снять АП с поста.\n"
-                "🔹 `/setnorm [VK_ID] [+1/-1]` — Выдать/снять дни с нормой.\n"
-                "🔹 `/setpoints [VK_ID] [+10/-10]` — Выдать/снять баллы.\n"
-                "🔹 `/setwarn [VK_ID] [+1/-1] [Причина]` — Выдать/снять пред (0/2, 1/2, 2/2).\n"
-                "🔹 `/setrep [VK_ID] [+1/-1] [Причина]` — Выдать/снять выговор (0/3, 1/3, 2/3, 3/3).\n"
-                "🔹 `/setneak [VK_ID] [Дата_С] [Дата_По] [Одобрено/Отказано]` — Настроить неактив."
+                "⚙️ Панель Управления Администрации:\n\n"
+                "🔹 /chstats — Список и управление Агентами Поддержки.\n"
+                "🔹 /addap [VK_ID] [Nick_Name] [Должность] [Дата]` — Поставить АП.\n"
+                "🔹 /removeap [VK_ID] [Причина]` — Снять АП с поста.\n"
+                "🔹 /setnorm [VK_ID] [+1/-1]` — Выдать/снять дни с нормой.\n"
+                "🔹 /setpoints [VK_ID] [+10/-10]` — Выдать/снять баллы.\n"
+                "🔹 /setwarn [VK_ID] [+1/-1] [Причина]` — Выдать/снять пред (0/2, 1/2, 2/2).\n"
+                "🔹 /setrep [VK_ID] [+1/-1] [Причина]` — Выдать/снять выговор (0/3, 1/3, 2/3, 3/3).\n"
+                "🔹 /setneak [VK_ID] [Дата_С] [Дата_По] [Одобрено/Отказано]` — Настроить неактив."
             )
             send_msg(peer_id, adm_text)
 
@@ -274,10 +274,10 @@ for event in longpoll.listen():
                 send_msg(peer_id, "📋 В базе нет зарегистрированных АП.")
                 continue
 
-            res_text = "📋 **Список Агентов Поддержки:**\n\n"
+            res_text = "📋 Список Агентов Поддержки:\n\n"
             for h in helpers_list:
                 res_text += (
-                    f"👤 **{h[1]}** (VK ID: `{h[0]}`)\n"
+                    f"👤 {h[1]} (VK ID: `{h[0]}`)\n"
                     f"├ Дни с нормой: {h[2]} | Баллы: {h[3]}\n"
                     f"└ Предупреждения: {h[4]}/2 | Выговоры: {h[5]}/3\n"
                     f"────────────────────\n"
@@ -295,21 +295,21 @@ for event in longpoll.listen():
                 target_id = int(target_id)
                 add_helper(target_id, nick, pos, appoint)
 
-                send_msg(peer_id, f"✅ Игрок **{nick}** успешно назначен на должность **{pos}**!")
+                send_msg(peer_id, f"✅ Игрок {nick} успешно назначен на должность *{pos}!")
 
                 # Уведомление хелперу
                 try:
                     send_msg(
                         target_id,
-                        f"🎉 **Поздравляем!** Вам выдан доступ к боту Агентов Поддержки.\n\n"
-                        f"👤 **Nick_Name:** {nick}\n"
-                        f"💼 **Должность:** {pos}\n"
-                        f"📅 **Дата постановления:** {appoint}"
+                        f"🎉 Поздравляем! Вам выдан доступ к боту Агентов Поддержки.\n\n"
+                        f"👤 Nick_Name: {nick}\n"
+                        f"💼 Должность: {pos}\n"
+                        f"📅 Дата постановления: {appoint}"
                     )
                 except Exception:
                     send_msg(peer_id, "⚠️ Не удалось отправить личное сообщение пользователю (закрыт ЛС).")
             except Exception:
-                send_msg(peer_id, "💡 Формат: `/addap [VK_ID] [Nick_Name] [Должность] [Дата]`")
+                send_msg(peer_id, "💡 Формат: /addap [VK_ID] [Nick_Name] [Должность] [Дата]")
 
         # Снять с поста
         elif cmd.startswith("/removeap"):
@@ -319,13 +319,13 @@ for event in longpoll.listen():
                 target_id = int(target_id)
                 remove_helper(target_id)
 
-                send_msg(peer_id, f"⛔ Пользователь ID `{target_id}` снят с поста. Причина: {reason}")
+                send_msg(peer_id, f"⛔ Пользователь ID {target_id} снят с поста. Причина: {reason}")
                 try:
-                    send_msg(target_id, f"⛔ Вы были сняты с поста Агента Поддержки.\n**Причина:** {reason}")
+                    send_msg(target_id, f"⛔ Вы были сняты с поста Агента Поддержки.\n Причина: {reason}")
                 except Exception:
                     pass
             except Exception:
-                send_msg(peer_id, "💡 Формат: `/removeap [VK_ID] [Причина]`")
+                send_msg(peer_id, "💡 Формат: /removeap [VK_ID] [Причина]")
 
         # Выдать/снять дни с нормой
         elif cmd.startswith("/setnorm"):
@@ -335,9 +335,9 @@ for event in longpoll.listen():
                 target_id, val = int(target_id), int(val)
                 update_field(target_id, "norm_days", val)
                 h = get_helper(target_id)
-                send_msg(peer_id, f"✅ Дни с нормой у **{h[1]}** изменены. Текущее количество: {h[5]}")
+                send_msg(peer_id, f"✅ Дни с нормой у {h[1]} изменены. Текущее количество: {h[5]}")
             except Exception:
-                send_msg(peer_id, "💡 Формат: `/setnorm [VK_ID] [+1/-1]`")
+                send_msg(peer_id, "💡 Формат: /setnorm [VK_ID] [+1/-1]")
 
         # Выдать/снять баллы
         elif cmd.startswith("/setpoints"):
@@ -347,7 +347,7 @@ for event in longpoll.listen():
                 target_id, val = int(target_id), int(val)
                 update_field(target_id, "points", val)
                 h = get_helper(target_id)
-                send_msg(peer_id, f"⭐ Баллы у **{h[1]}** изменены. Текущий баланс: {h[7]}")
+                send_msg(peer_id, f"⭐ Баллы у {h[1]} изменены. Текущий баланс: {h[7]}")
             except Exception:
                 send_msg(peer_id, "💡 Формат: `/setpoints [VK_ID] [+10/-10]`")
 
