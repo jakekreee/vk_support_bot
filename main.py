@@ -150,7 +150,7 @@ for event in longpoll.listen():
             stats_msg = (
                 f"📊 Статистика Агента Поддержки\n\n"
                 f"👤 Nick_Name: {nick}\n"
-                f"📅 Дата постановления: {appoint}\n"
+                f"📅 Дата постановления: {appoint}"
                 f"⏳ Дни: {days}\n"
                 f"✅ Дни с нормой: {norm_days}\n"
                 f"💬 Количество ответов: {answers}\n"
